@@ -5,9 +5,9 @@ class CsvRow
   end
 
   def method_missing(name, *args)
+    col_idx = nil
     col_idx = @headers.find_index {|ele|
-      res = ele == name
-      print "#{ele} == #{name}: #{res}\n"
+      res = ele == name.to_s
       res
     }
 
@@ -15,15 +15,8 @@ class CsvRow
       raise 'column does not exist'
     end
 
-    puts data
-    data.each {|row|
-      puts row
-      row.each_with_index {|index, ele|
-        if index % col_idx == 0
-          # block.call(ele)
-          return ele
-        end
-      }
+    @data.each {|row|
+      return row[col_idx]
     }
   end
 end
